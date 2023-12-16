@@ -1,8 +1,28 @@
 import os 
-import pandas as pd # vos sos un panda 
+import pandas as pd 
 import streamlit as st
+import base64
 
-#print(os.getcwd()) #get current working directory
+def set_bg_hack(main_bg):
+    '''
+    Unpack an image from root folder and set as bg.
+    '''
+    # set bg name
+    main_bg_ext = "png"
+        
+    st.markdown(
+         f"""
+         <style>
+         .stApp {{
+             background: url(data:image/{main_bg_ext};base64,{base64.b64encode(open(main_bg, "rb").read()).decode()});
+             background-size: cover;
+             overflow: hidden
+         }}
+         </style>
+         """,
+         unsafe_allow_html=True
+     )
+    
 COUNTRY_NAMES = [
     "Afghanistan", "Africa", "Albania", "Algeria", "Andorra", "Angola", "Argentina", "Armenia", "Australia",
     "Austria", "Azerbaijan", "Bahrain", "Bangladesh", "Belarus", "Belgium", "Benin", "Bolivia", "Botswana",
@@ -52,13 +72,14 @@ def convert_columns_to_lists(df):
     return df
 
 def transform_date_column(df):
-    # Transform the 'Date' column as described
+    # Transform the 'Date' column
     df['Date'] = df['Date'].apply(lambda x: x.split('/')[1] if pd.notnull(x) and '/' in x else 'Undated')
     return df
 
 # Function to add a title and subtitle
 def set_title():
     # Set the font style
+
     title_html = """
         <style>
             @import url('https://fonts.googleapis.com/css2?family=Oswald:wght@300&display=swap');
@@ -66,7 +87,7 @@ def set_title():
                 font-family: 'Oswald', sans-serif;
             }
         </style>
-        <h1>GLOBAL HRE LIBRARY</h1>
+        <h1>               </h1>
     """
     st.markdown(title_html, unsafe_allow_html=True)
 
@@ -96,7 +117,7 @@ def sidebar_filters(df):
     return selected_source, selected_language, selected_tags, selected_types, selected_years, keyword_search
 
 def apply_filters(df, selected_source, selected_language, selected_tags, selected_types, selected_years, keyword_search):
-    # Apply filters only if any options other than 'Any' are chosen
+    # Apply filters to dataframe
     if selected_source:
         df = df[df['Source'].isin(selected_source)]
     if selected_language:
@@ -117,7 +138,7 @@ def apply_filters(df, selected_source, selected_language, selected_tags, selecte
 
     
 def display_results(filtered_df):
-    st.subheader("Your search results")
+    #st.subheader("Your search results")
 
     # List of columns to hide from the user
     columns_to_hide = ['HRE Produced?', 'Keyword Matches', 'Excerpt', 'RawText', 'Comments']
@@ -130,22 +151,23 @@ def display_results(filtered_df):
 
 def main(file_path):
     set_title()
+    set_bg_hack('try10.png')
    # Create a container for layout
     col1, col2 = st.columns([1, 9])
-    logo_path = 'ai-logo.svg'
-    col1.image(logo_path, width=100, use_column_width=False)
-    
     df = load_data(file_path)
     selected_source, selected_language, selected_tags, selected_types, selected_years, keyword_search = sidebar_filters(df)
     filtered_df = apply_filters(df, selected_source, selected_language, selected_tags, selected_types, selected_years, keyword_search)
     display_results(filtered_df)
     
+     # Add the hyperlink to the satisfaction Form
+    form_url = "https://forms.gle/aKAMtvkTjqctKShA9"  # Replace with your Google Form URL
+    st.sidebar.markdown(f"<h3><a href='{form_url}' style='font-family: Oswald; color: #3498db;'>HELP US IMPROVE!", unsafe_allow_html=True)
+
+    
 if __name__ == "__main__":
     # Specify the local file path to your CSV file
-    local_file_path = 'glibrary23r.csv'
+    local_file_path = 'glibrary23s.csv'
     main(local_file_path)
-    
-#pd.set_option('display.max_columns', None)  # Show all columns
-#pd.set_option('display.max_rows', 20)       # Show 20 rows  
+
     
     
