@@ -87,7 +87,7 @@ def set_title():
                 font-family: 'Oswald', sans-serif;
             }
         </style>
-        <h1>               </h1>
+        <h1>       .        </h1>
     """
     st.markdown(title_html, unsafe_allow_html=True)
 
