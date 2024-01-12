@@ -93,7 +93,7 @@ def set_title():
 
     
 def sidebar_filters(df):
-    st.sidebar.header("Filters")
+    st.sidebar.markdown("<h2 style='font-family: Oswald;'>FILTERS</h2>", unsafe_allow_html=True)
 
     # Extract individual values for each filter option
     individual_sources = list(df['Source'].unique())
@@ -147,9 +147,26 @@ def display_results(filtered_df):
     filtered_df = filtered_df.rename(columns={'Country_Topic': 'Country Topic'})
 
     # Display the filtered data excluding the specified columns
-    st.write(filtered_df.drop(columns=columns_to_hide))
+    #st.write(filtered_df.drop(columns=columns_to_hide))
+    # Display the filtered data excluding the specified columns
+    st.markdown(
+        f"""
+        <style>
+            .dataframe {{
+                width: 100% !important;
+                max-width: none !important;
+            }}
+        </style>
+        """,
+        unsafe_allow_html=True
+    )
 
+    st.dataframe(filtered_df.drop(columns=columns_to_hide), height=600, width=1700)
+   
+     
 def main(file_path):
+    st.set_page_config(layout="wide")
+    
     set_title()
     set_bg_hack('try10.png')
    # Create a container for layout
@@ -159,15 +176,20 @@ def main(file_path):
     filtered_df = apply_filters(df, selected_source, selected_language, selected_tags, selected_types, selected_years, keyword_search)
     display_results(filtered_df)
     
+     # Add the YouTube video link in the sidebar under the filters
+    youtube_video_url = "https://www.youtube.com/watch?v=fWhuVczU3sE"  # Replace with your YouTube video URL
+    st.sidebar.markdown("<h3 style='font-family: Oswald;'>TUTORIAL: HOW TO USE THIS DATABASE</h3>", unsafe_allow_html=True)
+    st.sidebar.video(youtube_video_url)
+    
      # Add the hyperlink to the satisfaction Form
     form_url = "https://forms.gle/aKAMtvkTjqctKShA9"  # Replace with your Google Form URL
     st.sidebar.markdown(f"<h3><a href='{form_url}' style='font-family: Oswald; color: #3498db;'>HELP US IMPROVE!", unsafe_allow_html=True)
-
+    
     
 if __name__ == "__main__":
     # Specify the local file path to your CSV file
     local_file_path = 'glibrary23s.csv'
-    main(local_file_path)
+    main(local_file_path) 
 
     
     
