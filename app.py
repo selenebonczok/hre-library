@@ -177,7 +177,7 @@ def main(file_path):
     display_results(filtered_df)
     
      # Add the YouTube video link in the sidebar under the filters
-    youtube_video_url = "https://www.youtube.com/watch?v=fWhuVczU3sE"  # Replace with your YouTube video URL
+    youtube_video_url = "https://www.youtube.com/watch?v=_TpQubxoH50"  # Replace with your YouTube video URL
     st.sidebar.markdown("<h3 style='font-family: Oswald;'>TUTORIAL: HOW TO USE THIS DATABASE</h3>", unsafe_allow_html=True)
     st.sidebar.video(youtube_video_url)
     
