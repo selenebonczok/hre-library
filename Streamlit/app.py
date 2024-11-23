@@ -192,7 +192,7 @@ def main(file_path):
     
 if __name__ == "__main__":
     # Specify the local file path to your CSV file
-    local_file_path = 'glibrary24m.csv'
+    local_file_path = 'glibrary24-mn.csv'
     main(local_file_path) 
 
     
